@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr" layout:decorate="~{decorators/master}"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrer un nouveau vol</title>
+</head>
+<body>
+<header>
+    <h1>Création de Vol</h1>
+</header>
+
+<section>
+    <!-- Formulaire de création de vol -->
+    <form th:action="@{/savedFlight}"  th:object="${flightRequest}" method="post">
+        <label for="departure">Date de départ:</label>
+        <input type="datetime-local" th:field="*{departure}" id="departure" name="departure" required><br><br>
+
+        <label for="arrival">Date d'arrivée:</label>
+        <input type="datetime-local" th:field="*{arrival}" id="arrival" name="arrival" required><br><br>
+
+        <label for="price">Prix:</label>
+        <input type="number"  th:field="*{price}" id="price"  name="price" required><br><br>
+
+        <label for="origin">Aéroport de départ:</label>
+        <input type="text"  th:field="*{origin}" id="origin" name="origin" required><br><br>
+
+        <label for="destination">Aéroport d'arrivée:</label>
+        <input type="text" th:field="*{destination}" id="destination" name="destination" required><br><br>
+
+        <label for="image">URL de l'image:</label>
+        <input type="text" th:field="*{image}" id="image" name="image" required><br><br>
+
+        <button type="submit">Créer le vol</button>
+    </form>
+</section>
+
+<footer>
+    <p>&copy; 2023 Recherche de Vols. Tous droits réservés.</p>
+</footer>
+</body>
+</html>
