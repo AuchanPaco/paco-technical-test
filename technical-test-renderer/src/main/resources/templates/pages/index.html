@@ -89,8 +89,10 @@
             <tr th:each="flight : ${flights}">
                 <th th:text="${flight.origin.name}"></th>
                 <th th:text="${flight.destination.name}"></th>
-                <th th:text="${#numbers.formatDecimal(flight.price, 0, 'COMMA', 0, 'POINT')}"></th>
-                <th th:text="${flight.photo}"></th>
+                <th th:text="${#numbers.formatDecimal(flight.price, 0, 'COMMA', 2, 'POINT')}"></th>
+                <th>
+                    <img th:src="${flight.image}" alt="Image du vol" th:style="'width: 20px; height: 20px;'" />
+                </th>
             </tr>
         </table>
     </ul>
