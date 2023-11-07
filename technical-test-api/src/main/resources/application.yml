@@ -5,7 +5,7 @@ spring:
     web-application-type: reactive
   data:
     mongodb:
-      database: auchan-tech-test
+      uri: mongodb://localhost:27017/auchan-tech-test
 
 server:
   port: 8086
