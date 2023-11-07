@@ -68,3 +68,10 @@ TravelQuest est une application de réservation de voyages qui offre une expéri
 
 
 ## Si tu rencontres un problème n'hésite pas à créer une issue sur le repo que tu as fork et on répondra aussi vite que possible !
+
+
+## Parties réalisées: 
+
+Back: 1.1, 1.2, 2.1
+Front: 1.1, 1.2, 2.1(en cour)
+Comméncé à 10h20 fin du développement à 12h20
