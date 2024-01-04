@@ -18,9 +18,13 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class FlightFacade {
+
     private final FlightService flightService;
+
     private final AirportService airportService;
+
     private final FlightMapper flightMapper;
+
     private final AirportMapper airportMapper;
 
     public Mono<Page<FlightRepresentation>> getAllFlights(Optional<Double> maximumPrice, Optional<String> originIata, Pageable pageable) {
