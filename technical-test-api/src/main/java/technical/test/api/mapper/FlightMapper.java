@@ -9,6 +9,9 @@ import technical.test.api.representation.AirportRepresentation;
 import technical.test.api.representation.FlightRepresentation;
 
 import java.util.Collections;
+import java.util.UUID;
+
+import static java.util.UUID.randomUUID;
 
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, imports = Collections.class)
@@ -17,6 +20,7 @@ public interface FlightMapper {
     @Mapping(target = "destination", source = "destination", ignore = true)
     FlightRepresentation convert(FlightRecord source);
 
+    @Mapping(target = "id", expression = "java(generateUuid())")
     @Mapping(target = "origin", source = "origin", qualifiedByName = "extractAirportCode")
     @Mapping(target = "destination", source = "destination", qualifiedByName = "extractAirportCode")
     FlightRecord convert(FlightRepresentation source);
@@ -24,5 +28,9 @@ public interface FlightMapper {
     @Named("extractAirportCode")
     default String wrapImageAsList(final AirportRepresentation source) {
         return source.getIata();
+    }
+
+    default UUID generateUuid() {
+        return randomUUID();
     }
 }

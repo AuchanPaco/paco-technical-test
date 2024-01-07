@@ -11,5 +11,6 @@ webclient:
       port: 8086
       url: http://localhost:${webclient.api.technical.port}
       base-path: /
-      flight-path: /flight
+      flight-path: /flights
+      airport-path: /airports
 

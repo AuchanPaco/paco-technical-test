@@ -89,10 +89,18 @@
             <tr th:each="flight : ${flights}">
                 <th th:text="${flight.origin.name}"></th>
                 <th th:text="${flight.destination.name}"></th>
-                <th th:text="${flight.price}"></th>
-                <th th:text="${flight.photo}"></th>
+                <th th:text="${#numbers.formatDecimal(flight.price, 0, 'COMMA', 2, 'POINT')}"></th>
+                <th>
+                    <img th:src="${flight.image}" alt="image du vol" th:style="'width: 100px; height: 100px;'">
+                </th>
             </tr>
         </table>
+        <div th:if="${totalPages > 0}" class="pagination"
+             th:each="pageNumber : ${pageNumbers}">
+            <a th:href="@{/(size=6, page=${pageNumber})}"
+               th:text=${pageNumber}
+               th:class="${pageNumber==actualPage + 1} ? active"></a>
+        </div>
     </ul>
 </section>
 
