@@ -16,4 +16,9 @@ public class AirportService {
         return airportRepository.findAirportRecordByIata(iataCode);
 //        return airportRepository.findById(iataCode);
     }
+
+    public Mono<AirportRecord> getOrCreate(AirportRecord origin) {
+         if(origin.getIata()==null || origin.getIata().isBlank()) return  airportRepository.save(origin);
+         return airportRepository.findAirportRecordByIata(origin.getIata()) ;
+    }
 }
