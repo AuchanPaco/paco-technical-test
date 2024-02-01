@@ -14,6 +14,12 @@ public class FlightCriteriaRepositoryImpl implements FlightCriteriaRepository {
 
     private final ReactiveMongoTemplate mongoTemplate;
 
+    private static final String ORIGIN_FIELD = "origin";
+    private static final String DESTINATION_FIELD = "destination";
+    private static final String DEPARTURE_FIELD = "departure";
+    private static final String PRICE_FIELD = "price";
+    private static final int PAGE_SIZE = 6;
+
     public FlightCriteriaRepositoryImpl(ReactiveMongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
@@ -28,21 +34,21 @@ public class FlightCriteriaRepositoryImpl implements FlightCriteriaRepository {
 
         Query query = new Query();
         setPriceCriterion(price, query);
-        setSubCriterion("origin",origin,query);
-        setSubCriterion("destination",destination,query);
+        setSubCriterion(ORIGIN_FIELD,origin,query);
+        setSubCriterion(DESTINATION_FIELD,destination,query);
         setPagination(page, query);
 
         return  mongoTemplate.find(query, FlightRecord.class);
     }
 
     public void setPagination(int page, Query query){
-        Pageable pageable = PageRequest.of(page,2, Sort.Direction.ASC,"departure");
+        Pageable pageable = PageRequest.of(page,PAGE_SIZE, Sort.Direction.ASC,DEPARTURE_FIELD);
         query.with(pageable);
     }
 
     private void setPriceCriterion(Double price, Query query){
         if (price == null || price <=0) return  ;
-        query.addCriteria(Criteria.where("price").is(price));
+        query.addCriteria(Criteria.where(PRICE_FIELD).is(price));
     }
 
     private void setSubCriterion(String innerField, String value, Query query){

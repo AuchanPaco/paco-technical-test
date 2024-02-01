@@ -29,7 +29,9 @@ public class FlightEndpoint {
     }
 
     @PostMapping
-    public Mono<FlightRepresentation> createFlight(@RequestBody Mono<FlightRepresentation> flightRepresentationMono) {
+    public Mono<FlightRepresentation> createFlight(
+            @RequestBody Mono<FlightRepresentation> flightRepresentationMono
+    ) {
         return flightFacade.createFlight(flightRepresentationMono);
     }
 }
