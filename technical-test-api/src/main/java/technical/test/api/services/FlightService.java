@@ -17,6 +17,10 @@ public class FlightService {
         return flightRepository.findAll();
     }
 
+    public Flux<FlightRecord> getAllFlightsFiltered(Double price, String origin, String destination, int page){
+        return flightRepository.findAllFlightsByPriceAndOriginAndDestination(price, origin, destination, page);
+    }
+
     public Mono<FlightRecord> createFlight(FlightRecord flightRecord) {
         return flightRepository.save(flightRecord);
     }

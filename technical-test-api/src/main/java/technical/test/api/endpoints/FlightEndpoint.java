@@ -18,6 +18,16 @@ public class FlightEndpoint {
         return flightFacade.getAllFlights();
     }
 
+    @GetMapping("/search")
+    public Flux<FlightRepresentation> getFlightsFiltered(
+            @RequestParam(name = "price", required = false) Double price,
+            @RequestParam(name = "origin", required = false) String origin,
+            @RequestParam(name = "destination", required = false) String destination,
+            @RequestParam(name = "page", defaultValue = "0") int page
+    ) {
+        return flightFacade.getFilteredFlights(price, origin, destination, page);
+    }
+
     @PostMapping
     public Mono<FlightRepresentation> createFlight(@RequestBody Mono<FlightRepresentation> flightRepresentationMono) {
         return flightFacade.createFlight(flightRepresentationMono);

@@ -21,19 +21,13 @@ public class FlightFacade {
     private final AirportMapper airportMapper;
 
     public Flux<FlightRepresentation> getAllFlights() {
-        return flightService.getAllFlights()
-                .flatMap(
-                        flightRecord -> airportService.findByIataCode(flightRecord.getOrigin())
-                                .zipWith(airportService.findByIataCode(flightRecord.getDestination()))
-                                .flatMap(tuple -> {
-                                    AirportRecord origin = tuple.getT1();
-                                    AirportRecord destination = tuple.getT2();
-                                    FlightRepresentation flightRepresentation = this.flightMapper.convert(flightRecord);
-                                    flightRepresentation.setOrigin(this.airportMapper.convert(origin));
-                                    flightRepresentation.setDestination(this.airportMapper.convert(destination));
-                                    return Mono.just(flightRepresentation);
-                                })
-                );
+        return getFlightRepresentations(flightService.getAllFlights());
+
+    }
+
+
+    public Flux<FlightRepresentation> getFilteredFlights(Double price, String origin, String destination, int page){
+        return getFlightRepresentations(flightService.getAllFlightsFiltered(price, origin, destination, page));
     }
 
     public Mono<FlightRepresentation> createFlight(Mono<FlightRepresentation> flightRepresentationMono) {
@@ -54,6 +48,23 @@ public class FlightFacade {
                                 return Mono.just(flightResponse);
                             });
                 }) ) ;
+
+    }
+
+    private Flux<FlightRepresentation> getFlightRepresentations(Flux<FlightRecord> flights){
+        return flights
+                .flatMap(
+                        flightRecord -> airportService.findByIataCode(flightRecord.getOrigin())
+                                .zipWith(airportService.findByIataCode(flightRecord.getDestination()))
+                                .flatMap(tuple -> {
+                                    AirportRecord origin = tuple.getT1();
+                                    AirportRecord destination = tuple.getT2();
+                                    FlightRepresentation flightRepresentation = this.flightMapper.convert(flightRecord);
+                                    flightRepresentation.setOrigin(this.airportMapper.convert(origin));
+                                    flightRepresentation.setDestination(this.airportMapper.convert(destination));
+                                    return Mono.just(flightRepresentation);
+                                })
+                );
 
     }
 
