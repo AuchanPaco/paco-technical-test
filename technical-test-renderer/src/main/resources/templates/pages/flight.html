@@ -161,26 +161,26 @@
     <div>
 
         <section id="form_flight">
-            <form id="survey-form"  th:action="@{/flight}" th:object="${flight}" method="post">
+            <form action="#" id="survey-form"  th:action="@{/flight-new}" th:object="${flightNew}" method="post">
                     <fieldset id="fieldset">
                         <legend id="legend"> Ajouter un vol</legend>
                         <div class="row">
                             <label class="labels" for="departure" id="departure-label"> Départ </label>
-                            <input th:field="*{departure}" class="input" id="departure" name="departure" type="datetime-local" placeholder="your name" required>
+                            <input th:field="*{departure}" class="input" id="departure" name="departure" type="datetime-local" placeholder="Départ" required>
                         </div>
                         <div class="row">
                             <label class="labels" for="arrival" id="arrival-label"> Arrivée </label>
                             <input th:field="*{arrival}" class="input" id="arrival" name="arrival" type="datetime-local" placeholder="Arrivée" required>
                         </div>
                         <div class="row">
-                            <label class="labels" for="price" id="age-label"> Prix  </label>
+                            <label class="labels" for="price" id="price-label"> Prix  </label>
                             <input th:field="*{price}" class="input" id="price" min="0"   name="price" type="number" step="0.005" placeholder="Prix">
                         </div>
                         <div class="row">
 
                             <label  class="labels" for="origin"> Origine </label>
                             <select th:field="*{origin}" class="input" id="origin" name="origin">
-                                <option th:each="airport : ${airports}" th:value="${airport}" th:text="${airport.name}"></option>
+                                <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
                             </select>
                         </div>
 
@@ -188,7 +188,7 @@
 
                             <label  class="labels" for="destination"> Destination </label>
                             <select th:field="*{destination}" class="input" id="destination" name="destination">
-                                <option th:each="airport : ${airports}" th:value="${airport}" th:text="${airport.name}"></option>
+                                <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
                             </select>
                         </div>
 
@@ -198,7 +198,7 @@
                         </div>
 
                         <div class="row">
-                            <button class="btn" type="submit">Enregistrer</button>
+                            <input class="btn" type="submit" value="Enregistrer">
                         </div>
                     </fieldset>
 

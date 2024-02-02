@@ -2,8 +2,10 @@ package technical.test.renderer.services;
 
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import technical.test.renderer.clients.TechnicalApiClient;
 import technical.test.renderer.viewmodels.FlightViewModel;
+import technical.test.renderer.viewmodels.SearchViewModel;
 
 @Service
 public class FlightService {
@@ -13,7 +15,13 @@ public class FlightService {
         this.technicalApiClient = technicalApiClient;
     }
 
-    public Flux<FlightViewModel> getFlights() {
-        return this.technicalApiClient.getFlights();
+    public Flux<FlightViewModel> getFlights(SearchViewModel searchViewModel) {
+        return this.technicalApiClient.getFlights(searchViewModel);
+    }
+
+    public Mono<FlightViewModel> createFlight(FlightViewModel flightViewModel) {
+
+
+        return technicalApiClient.createFlight(flightViewModel);
     }
 }

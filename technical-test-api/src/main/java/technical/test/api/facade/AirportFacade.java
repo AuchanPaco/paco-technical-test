@@ -3,6 +3,7 @@ package technical.test.api.facade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import technical.test.api.mapper.AirportMapper;
 import technical.test.api.representation.AirportRepresentation;
 import technical.test.api.services.AirportService;
@@ -19,4 +20,7 @@ public class AirportFacade {
    }
 
 
+    public Mono<AirportRepresentation> getAirportByIata(String iata) {
+       return airportService.findByIataCode(iata).map(this.airportMapper::convert);
+    }
 }

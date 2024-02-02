@@ -32,8 +32,8 @@ public class FlightFacade {
 
     public Mono<FlightRepresentation> createFlight(Mono<FlightRepresentation> flightRepresentationMono) {
 
-        return flightRepresentationMono.flatMap(flightRepresentation -> airportService.getOrCreate(this.airportMapper.convert(flightRepresentation.getOrigin()))
-                .zipWith(airportService.getOrCreate(this.airportMapper.convert(flightRepresentation.getDestination())))
+        return flightRepresentationMono.flatMap(flightRepresentation -> airportService.getAirportOrThrow(this.airportMapper.convert(flightRepresentation.getOrigin()))
+                .zipWith(airportService.getAirportOrThrow(this.airportMapper.convert(flightRepresentation.getDestination())))
                 .flatMap(tuple->{
                     AirportRecord origin = tuple.getT1();
                     AirportRecord destination = tuple.getT2();
