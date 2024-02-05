@@ -2,10 +2,19 @@ spring:
   application:
     name: technical-test-api
   main:
-    web-application-type: servlet
+    web-application-type: reactive
   data:
     mongodb:
+      host: localhost
+      port: 27017
+      uri: mongodb://localhost/test
       database: auchan-tech-test
+      repositories:
+        enabled: true
 
 server:
   port: 8086
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
