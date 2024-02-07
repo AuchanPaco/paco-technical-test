@@ -8,4 +8,6 @@ public class SearchViewModel {
     private Double price;
     private String origin;
     private String destination;
+    private String favoriteFlight;
+    private Integer page;
 }

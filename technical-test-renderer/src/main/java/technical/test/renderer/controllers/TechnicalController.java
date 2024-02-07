@@ -32,14 +32,25 @@ public class TechnicalController {
 
 
     @GetMapping
-    public Mono<String> getMarketPlaceReturnCouponPage(
+    public Mono<String> getFlights(
             final Model model,
-           @ModelAttribute(name = "search")  SearchViewModel searchViewModel
+            @ModelAttribute(name = "search")  SearchViewModel searchViewModel
     ) {
         model.addAttribute("flights", this.flightFacade.getFlights(searchViewModel));
         model.addAttribute("search", new SearchViewModel());
         model.addAttribute("airports", this.flightFacade.getAirports());
         return Mono.just("pages/index");
+    }
+
+    @GetMapping("search")
+    public Mono<String> filter(
+            final Model model,
+           @ModelAttribute(name = "search")  SearchViewModel searchViewModel
+    ) {
+        model.addAttribute("flights", this.flightFacade.getFlights(searchViewModel));
+        model.addAttribute("search", searchViewModel);
+        model.addAttribute("airports", this.flightFacade.getAirports());
+        return Mono.just("pages/search");
     }
 
 

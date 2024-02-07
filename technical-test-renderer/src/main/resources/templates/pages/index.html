@@ -7,6 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche de Vols</title>
     <style>
+
+        .navbar {
+            background-color: #3498db;
+            padding: 10px;
+            display: flex;
+            border: 1px solid whitesmoke;
+            font-weight: bold;
+        }
+        .navbar a:hover{
+            color: black;
+            text-decoration: underline;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 16px;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -33,6 +52,7 @@
             width: 100%;
             text-align: center;
             color: #fff;
+            position: fixed;
         }
 
         td,
@@ -122,11 +142,20 @@
             gap: 19px;
         }
 
+        .hide-row{
+            display: none;
+        }
 
     </style>
 </head>
 <body>
 <header>
+    <nav class="navbar">
+        <a th:href="@{/}">Accueil</a>
+        <a th:href="@{/search}">Recherche</a>
+        <a th:href="@{/flight}">Admin</a>
+    </nav>
+
     <h1>Recherche de Vols</h1>
 </header>
 
@@ -135,19 +164,22 @@
     <h2>Bienvenue sur notre site de recherche de vols</h2>
     <p>Commencez votre aventure en trouvant les meilleurs vols disponibles.</p>
     <!-- Ajoutez ici le formulaire de recherche de vols ou d'autres éléments pertinents -->
-    <form action="#"  th:action="@{/}" th:object="${search}" method="get"    >
+    <form action="#" id="search_form"  th:action="@{/filter}" th:object="${search}" method="post"    >
         <div class="row">
 
             <div >
+                <input type="hidden" th:field="*{favoriteFlight}" name="favoriteFlight" id="hidden_favorite"/>
             <label  class="labels" for="origin"> Origine </label>
             <select th:field="*{origin}" class="input" id="origin" name="origin">
+                <option value=""> </option>
                 <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
             </select>
             </div>
 
         <div>
             <label  class="labels" for="destination"> Destination </label>
-            <select th:field="*{destination}" class="input" id="destination" name="destination">
+            <select th:field="*{destination}" class="input" id="destination" name="destination" autocomplete="on">
+                <option value=""> </option>
                 <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
             </select>
         </div>
@@ -158,27 +190,13 @@
 
             <div style="align-self: end">
             <input class="btn" type="submit" value="Rechercher">
+                <button>Réinitialiser</button>
             </div>
         </div>
 
-
     </form>
-    <ul>
-        <table>
-            <tr>
-                <th scope="col">Départ de</th>
-                <th scope="col">Arrivée à</th>
-                <th scope="col">Prix</th>
-                <th scope="col">Photo</th>
-            </tr>
-            <tr th:each="flight : ${flights}">
-                <td th:text="${flight.origin.name}"></td>
-                <td th:text="${flight.destination.name}"></td>
-                <td th:text="|${#numbers.formatDecimal(flight.price, 1, 'POINT', 2, 'COMMA')} €|"> </td>
-                <td> <img loading="lazy" class="image" th:src="${flight.image}" alt="img"/> </td>
-            </tr>
-        </table>
-    </ul>
+    <div th:replace="~{fragments/tableResults}"></div>
+
 </section>
 
 <footer>
@@ -188,6 +206,86 @@
 
 <script>
 
+    window.onload = (event)=>{
+        console.log(11)
+        getStorageAndPopulate()
+         const searchForm = document.getElementById("search_form")
+         if (searchForm){
+             searchForm.addEventListener("submit", (event)=>{
+                 event.preventDefault()
+                 setStorage()
+                 searchForm.submit()
+             })
+         }
+
+         //storage
+
+
+    }
+    function getFilterFields() {
+        return [
+            document.getElementById("hidden_favorite"),
+            document.getElementById("origin"),
+            document.getElementById("destination"),
+            document.getElementById("price")
+        ];
+    }
+
+    function setStorage() {
+        getFilterFields().filter(input=>input!==null)
+            .forEach(input=>{
+                console.log(input)
+                localStorage.setItem(input.id, input.value)
+        })
+
+    }
+
+    function getStorageAndPopulate() {
+      return   getFilterFields().filter(input=>input!==null)
+            .forEach(input=>{
+                input.value=localStorage.getItem(input.id)
+                if (input.id==="hidden_favorite"){
+                    Array.from( document.getElementsByClassName("flight-row") )
+                        .forEach(row=>{
+                            if (input.value && row.id!==input.value){
+                                row.classList.add('hide-row')
+                            }else{
+                                row.classList.remove('hide-row')
+                                if (input.value===row.id &&  row.lastElementChild)  {
+                                    row.lastElementChild.lastElementChild.checked=true
+                                }
+                            }
+
+                        })
+
+                }
+        })
+
+    }
+
+    function setFavorite(radioButton){
+        if (radioButton) {
+            const selectedValue = radioButton.value;
+            const favoriteInput = document.getElementById("hidden_favorite")
+            if (favoriteInput){
+                let message = ''
+                const flightId = favoriteInput.value;
+                if (selectedValue===flightId){
+                    radioButton.checked=false
+                    favoriteInput.value=''
+                    message = 'Vol enlevé comme favoris'
+
+                }else{
+                    favoriteInput.value = selectedValue
+                    message = 'Vol ajouté comme favoris'
+                }
+                setStorage()
+                alert(message)
+
+            }
+
+        }
+    }
 </script>
 </body>
 </html>

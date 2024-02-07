@@ -29,7 +29,7 @@ public class FlightCriteriaRepositoryImpl implements FlightCriteriaRepository {
             Double price,
             String origin,
             String destination,
-            int page
+            Integer page
     ) {
 
         Query query = new Query();
@@ -41,7 +41,8 @@ public class FlightCriteriaRepositoryImpl implements FlightCriteriaRepository {
         return  mongoTemplate.find(query, FlightRecord.class);
     }
 
-    public void setPagination(int page, Query query){
+    public void setPagination(Integer page, Query query){
+        if (page==null) return ;
         Pageable pageable = PageRequest.of(page,PAGE_SIZE, Sort.Direction.ASC,DEPARTURE_FIELD);
         query.with(pageable);
     }

@@ -12,6 +12,8 @@ import technical.test.api.representation.FlightRepresentation;
 import technical.test.api.services.AirportService;
 import technical.test.api.services.FlightService;
 
+import java.util.function.Function;
+
 @Component
 @RequiredArgsConstructor
 public class FlightFacade {
@@ -26,8 +28,13 @@ public class FlightFacade {
     }
 
 
-    public Flux<FlightRepresentation> getFilteredFlights(Double price, String origin, String destination, int page){
-        return getFlightRepresentations(flightService.getAllFlightsFiltered(price, origin, destination, page));
+    public Flux<FlightRepresentation> getFilteredFlights(Double price, String origin, String destination, Integer page){
+        return getFlightRepresentations(flightService.getAllFlightsFiltered(price, origin, destination , page));
+    }
+
+    public Mono<FlightRepresentation> getFlight(String flightId){
+        Mono<FlightRecord> flightRecordMono = flightService.getFlightById(flightId);
+        return flightRecordMono.flatMap( getRepresentation() );
     }
 
     public Mono<FlightRepresentation> createFlight(Mono<FlightRepresentation> flightRepresentationMono) {
@@ -52,20 +59,21 @@ public class FlightFacade {
     }
 
     private Flux<FlightRepresentation> getFlightRepresentations(Flux<FlightRecord> flights){
-        return flights
-                .flatMap(
-                        flightRecord -> airportService.findByIataCode(flightRecord.getOrigin())
-                                .zipWith(airportService.findByIataCode(flightRecord.getDestination()))
-                                .flatMap(tuple -> {
-                                    AirportRecord origin = tuple.getT1();
-                                    AirportRecord destination = tuple.getT2();
-                                    FlightRepresentation flightRepresentation = this.flightMapper.convert(flightRecord);
-                                    flightRepresentation.setOrigin(this.airportMapper.convert(origin));
-                                    flightRepresentation.setDestination(this.airportMapper.convert(destination));
-                                    return Mono.just(flightRepresentation);
-                                })
-                );
+        return flights.flatMap(getRepresentation());
 
+    }
+
+    private Function<FlightRecord, Mono<? extends FlightRepresentation>> getRepresentation() {
+        return flightRecord -> airportService.findByIataCode(flightRecord.getOrigin())
+                .zipWith(airportService.findByIataCode(flightRecord.getDestination()))
+                .flatMap(tuple -> {
+                    AirportRecord origin = tuple.getT1();
+                    AirportRecord destination = tuple.getT2();
+                    FlightRepresentation flightRepresentation = this.flightMapper.convert(flightRecord);
+                    flightRepresentation.setOrigin(this.airportMapper.convert(origin));
+                    flightRepresentation.setDestination(this.airportMapper.convert(destination));
+                    return Mono.just(flightRepresentation);
+                });
     }
 
 }

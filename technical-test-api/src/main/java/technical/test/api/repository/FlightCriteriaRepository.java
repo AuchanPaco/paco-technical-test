@@ -6,7 +6,7 @@ import technical.test.api.record.FlightRecord;
 
 public interface FlightCriteriaRepository {
 
-    Flux<FlightRecord> findAllFlightsByPriceAndOriginAndDestination(@Nullable Double price, @Nullable String origin, @Nullable String destination, int page);
+    Flux<FlightRecord> findAllFlightsByPriceAndOriginAndDestination(@Nullable Double price, @Nullable String origin, @Nullable String destination, Integer page);
 
 
 }

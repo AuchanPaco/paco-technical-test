@@ -21,12 +21,11 @@ public class TechnicalApiClient {
 
     public TechnicalApiClient(TechnicalApiProperties technicalApiProperties, final WebClient.Builder webClientBuilder) {
         this.technicalApiProperties = technicalApiProperties;
-        this.webClient = webClientBuilder.build();
+        this.webClient = webClientBuilder.baseUrl(technicalApiProperties.getUrl()).build();
     }
 
     public Flux<FlightViewModel> getFlights(SearchViewModel searchViewModel) {
 
-        WebClient webClient = WebClient.create(technicalApiProperties.getUrl());
         return webClient
                 .get()
                 .uri(uriBuilder ->
@@ -34,7 +33,21 @@ public class TechnicalApiClient {
                                 .queryParam("origin", searchViewModel.getOrigin())
                                 .queryParam("destination", searchViewModel.getDestination())
                                 .queryParam("price", searchViewModel.getPrice())
+                                .queryParam("IdFlight", searchViewModel.getFavoriteFlight())
+                                .queryParam("page", searchViewModel.getPage())
                                 .build()
+                )
+                .retrieve()
+                .bodyToFlux(FlightViewModel.class);
+    }
+    public Flux<FlightViewModel> getFlight(String id) {
+
+        return webClient
+                .get()
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .path(technicalApiProperties.getFlightPath()+"/{id}")
+                                .build(id)
                 )
                 .retrieve()
                 .bodyToFlux(FlightViewModel.class);
@@ -43,7 +56,7 @@ public class TechnicalApiClient {
     public Flux<AirportViewModel> getAirports() {
         return webClient
                 .get()
-                .uri(technicalApiProperties.getUrl() + technicalApiProperties.getAirportPath())
+                .uri( uriBuilder -> uriBuilder.path(technicalApiProperties.getAirportPath()).build() )
                 .retrieve()
                 .bodyToFlux(AirportViewModel.class);
     }
@@ -51,7 +64,7 @@ public class TechnicalApiClient {
     public Mono<FlightViewModel> createFlight(FlightViewModel flightViewModel) {
         return webClient
                 .post()
-                .uri(technicalApiProperties.getUrl() + technicalApiProperties.getFlightPath())
+                .uri( uriBuilder -> uriBuilder.path(technicalApiProperties.getFlightPath()).build())
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(Mono.just(flightViewModel), FlightViewModel.class)
                 .retrieve()

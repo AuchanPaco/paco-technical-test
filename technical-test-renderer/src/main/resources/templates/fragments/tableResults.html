@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title> </title>
+</head>
+<body>
+  <table    th:fragment="flights(noFilter)" th:with="noFlightFound = ${#lists.isEmpty(flights)} , noFilter=${noFilter ?: true}">
+    <tr>
+      <th scope="col">Départ de</th>
+      <th scope="col">Arrivée à</th>
+      <th scope="col">Prix</th>
+      <th scope="col">Photo</th>
+      <th th:if="${!noFlightFound && !noFilter}" scope="col">Favoris</th>
+    </tr>
+    <tr th:if="${#lists.isEmpty(flights)}">
+      <td colspan="4">Aucun résultat</td>
+    </tr>
+    <tr th:unless="${#lists.isEmpty(flights)}" th:each="flight : ${flights}" th:id="${flight.id}" class="flight-row">
+      <td th:text="${flight.origin.name}"></td>
+      <td th:text="${flight.destination.name}"></td>
+      <td th:text="|${#numbers.formatDecimal(flight.price, 1, 'POINT', 2, 'COMMA')} €|"> </td>
+      <td> <img loading="lazy" class="image" th:src="${flight.image}" alt="img"/> </td>
+      <td>  <input type="radio" name="favorite" class="favorites-radio-btn" th:value="${flight.id}" onClick="setFavorite(this)"/> </td>
+    </tr>
+
+  </table>
+</body>
+</html>

@@ -16,6 +16,9 @@ public class FlightService {
     }
 
     public Flux<FlightViewModel> getFlights(SearchViewModel searchViewModel) {
+        if (searchViewModel.getFavoriteFlight()!=null && !searchViewModel.getFavoriteFlight().isBlank()){
+            return this.technicalApiClient.getFlight(searchViewModel.getFavoriteFlight());
+        }
         return this.technicalApiClient.getFlights(searchViewModel);
     }
 
