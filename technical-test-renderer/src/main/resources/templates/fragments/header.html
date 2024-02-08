@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr" layout:decorate="~{decorators/master}"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recherche de Vols</title>
+  <script th:src="@{/scripts/common-script.js}"></script>
+  <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<header>
+  <nav th:fragment="navbar(title)" th:with="title = ${title ?: 'Recherche de Vols'}" class="navbar">
+    <a id="home" th:href="@{/}" class="nav-menu-items" >Accueil</a>
+    <a id="search" th:href="@{/filter}" class="nav-menu-items" >Recherche</a>
+    <a id="admin" th:href="@{/flight}" class="nav-menu-items" >Admin</a>
+  </nav>
+
+  <h1 th:text="${title}"></h1>
+</header>
+
+</body>
+</html>

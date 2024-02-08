@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr" layout:decorate="~{decorators/master}"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recherche de Vols</title>
+
+</head>
+<body>
+<header  th:replace="~{fragments/header}">
+</header>
+
+<section>
+  <!-- Contenu de la recherche de vols -->
+  <h2>Bienvenue sur notre site de recherche de vols</h2>
+  <p>Commencez votre aventure en trouvant les meilleurs vols disponibles.</p>
+  <!-- Ajoutez ici le formulaire de recherche de vols ou d'autres éléments pertinents -->
+  <form action="#" id="search_form"  th:action="@{/filter}" th:object="${search}" method="get"    >
+    <div class="row">
+
+      <div >
+        <input type="hidden" th:field="*{favoriteFlight}" name="favoriteFlight" id="hidden_favorite"/>
+        <label  class="labels" for="origin"> Origine </label>
+        <select th:field="*{origin}" class=" glossy-input" id="origin" name="origin">
+          <option value=""> </option>
+          <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
+        </select>
+      </div>
+
+      <div>
+        <label  class="labels" for="destination"> Destination </label>
+        <select th:field="*{destination}" class="  glossy-input" id="destination" name="destination" autocomplete="on">
+          <option value=""> </option>
+          <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
+        </select>
+      </div>
+      <div>
+        <label class="labels" for="price" id="price-label"> Prix  </label>
+        <input th:field="*{price}" class="glossy-input" id="price" min="0"   name="price" type="number" step="0.005" placeholder="Prix">
+      </div>
+    <div class="row search-btn">
+      <div>
+        <input id="search-btn" class="btn" type="submit" value="Rechercher">
+        </div>
+      </div>
+
+    </div>
+
+  </form>
+  <div th:replace="~{fragments/tableResults(noFilter=false)}"></div>
+
+</section>
+
+<footer>
+  <p>&copy; 2023 Recherche de Vols. Tous droits réservés.</p>
+</footer>
+
+
+</body>
+</html>

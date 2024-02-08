@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr" layout:decorate="~{decorators/master}"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche de Vols</title>
+
+</head>
+<body>
+
+<header  th:replace="~{fragments/header(title='Nouveau vol')}">
+</header>
+    <!-- Contenu de la recherche de vols -->
+
+    <!-- Ajoutez ici le formulaire de recherche de vols ou d'autres éléments pertinents -->
+        <section id="form_flight">
+            <form action="#" id="survey-form"  th:action="@{/flight-new}" th:object="${flightNew}" method="post">
+                    <fieldset id="fieldset">
+                        <legend id="legend"> Ajouter un vol</legend>
+                        <div class="row">
+                            <div>
+                            <label class="labels" for="departure" id="departure-label"> Départ </label>
+                            <input th:field="*{departure}" class="input glossy-input" id="departure" name="departure" type="datetime-local" placeholder="Départ" required>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div>
+                            <label class="labels" for="arrival" id="arrival-label"> Arrivée </label>
+                            <input th:field="*{arrival}" class="input glossy-input" id="arrival" name="arrival" type="datetime-local" placeholder="Arrivée" required>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                            <label class="labels" for="price" id="price-label"> Prix  </label>
+                            <input th:field="*{price}" class="input glossy-input" id="price" min="0"   name="price" type="number" step="0.005" placeholder="Prix" required>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                            <label  class="labels" for="origin"> Origine </label>
+                            <select th:field="*{origin}" class="input glossy-input" id="origin" name="origin" required>
+                                <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
+                            </select>
+                        </div>
+                        </div>
+
+                        <div class="row">
+                            <div>
+                            <label  class="labels" for="destination"> Destination </label>
+                            <select th:field="*{destination}" class="input glossy-input" id="destination" name="destination" required>
+                                <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
+                            </select>
+                        </div>
+                        </div>
+
+                        <div class="row">
+                            <div>
+                            <label class="labels" for="image" id="image-label"> Image  </label>
+                            <input th:field="*{image}" id="image"  class="input glossy-input"  name="image" type="url" placeholder="URL de l'image" required>
+                        </div>
+                        </div>
+
+                        <div class="row">
+                            <div>
+                            <input class="btn" type="submit" value="Enregistrer">
+                        </div>
+                        </div>
+                    </fieldset>
+
+                </form>
+        </section>
+
+<footer>
+    <p>&copy; 2023 Recherche de Vols. Tous droits réservés.</p>
+</footer>
+
+
+<script>
+
+</script>
+</body>
+</html>
