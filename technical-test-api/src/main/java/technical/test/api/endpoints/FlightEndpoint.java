@@ -1,11 +1,13 @@
 package technical.test.api.endpoints;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import technical.test.api.facade.FlightFacade;
 import technical.test.api.representation.FlightRepresentation;
+import technical.test.api.validation.BasicInfo;
 
 @RestController
 @RequestMapping("/flight")
@@ -35,7 +37,7 @@ public class FlightEndpoint {
 
     @PostMapping
     public Mono<FlightRepresentation> createFlight(
-            @RequestBody Mono<FlightRepresentation> flightRepresentationMono
+          @Validated(BasicInfo.class) @RequestBody Mono<FlightRepresentation> flightRepresentationMono
     ) {
         return flightFacade.createFlight(flightRepresentationMono);
     }

@@ -1,5 +1,6 @@
 package technical.test.renderer.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class TechnicalController {
     }
 
     @PostMapping(value = "/flight-new")
-    public Mono<String> postFlight( final Model model,  @ModelAttribute(name = "flightNew")  FlightInput flightNew){
+    public Mono<String> postFlight( final Model model, @Valid @ModelAttribute(name = "flightNew")  FlightInput flightNew){
         Mono<FlightViewModel> f = this.flightFacade.createFlight(flightNew);
         model.addAttribute("new", f);
         return Mono.just("redirect:/");
