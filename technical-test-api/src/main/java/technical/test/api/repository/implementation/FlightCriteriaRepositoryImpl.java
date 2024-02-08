@@ -1,12 +1,11 @@
 package technical.test.api.repository.implementation;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import technical.test.api.record.FlightRecord;
 import technical.test.api.repository.FlightCriteriaRepository;
 
@@ -40,6 +39,44 @@ public class FlightCriteriaRepositoryImpl implements FlightCriteriaRepository {
 
         return  mongoTemplate.find(query, FlightRecord.class);
     }
+
+    @Override
+    public Mono<Page<FlightRecord>> findAllFlightsByPriceAndOriginAndDestinationPageable(
+            Double price,
+            String origin,
+            String destination,
+            Pageable page
+    ) {
+
+
+        Pageable finalPage = PageRequest.of(page.getPageNumber(), PAGE_SIZE, page.getSort());
+
+        Query query = getQuery(price, origin, destination, page);
+
+        Flux<FlightRecord> flightRecordFlux = mongoTemplate.find(query, FlightRecord.class);
+        Mono<Long> total = mongoTemplate.count( query, FlightRecord.class);
+
+
+
+        return flightRecordFlux.collectList()
+                .zipWith(total)
+                .map(t->new PageImpl<FlightRecord>(t.getT1(), finalPage,t.getT2()))
+                .map(pageImpl->pageImpl);
+
+    }
+
+
+
+    private Query getQuery(Double price, String origin, String destination, Pageable page) {
+        Query query = new Query();
+        setPriceCriterion(price, query);
+        setSubCriterion(ORIGIN_FIELD, origin,query);
+        setSubCriterion(DESTINATION_FIELD, destination,query);
+        query.with(page);
+        return query;
+    }
+
+
 
     public void setPagination(Integer page, Query query){
         if (page==null) return ;
