@@ -6,208 +6,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche de Vols</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f7fc;
-            color: #333;
-        }
 
-        header {
-            background-color: #3498db;
-            padding: 20px;
-            text-align: center;
-            color: #fff;
-        }
-
-        section {
-            padding: 40px;
-        }
-
-        footer {
-            background-color: #3498db;
-            padding: 10px 0;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            color: #fff;
-            position: fixed;
-        }
-
-        td,
-        th {
-            border: 1px solid rgb(190, 190, 190);
-            padding: 10px;
-        }
-
-        td {
-            text-align: center;
-        }
-
-        tr:nth-child(even) {
-            background-color: #eee;
-        }
-
-        th[scope='col'] {
-            background-color: #696969;
-            color: #fff;
-        }
-
-        caption {
-            padding: 10px;
-            caption-side: bottom;
-        }
-
-        table {
-            border-collapse: collapse;
-            border: 2px solid rgb(200, 200, 200);
-            letter-spacing: 1px;
-            font-family: sans-serif;
-            font-size: 0.8rem;
-        }
-        .image{
-
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            object-position: bottom;
-        }
-
-        .display-form {
-            display: flex;
-        }
-        .hide-form{
-            display: none;
-        }
-
-        #form_flight{
-
-        }
-
-        #fieldset{
-            width: 120%;
-            margin-bottom:2em;
-            position:relative;
-            z-index:5;
-            border: 2px solid white;
-        }
-
-        .labels{
-            display:flex;
-            margin-top:15px;
-            padding-bottom:2px;
-        }
-
-        #fieldset{
-            width: 30%;
-            margin-bottom:2em;
-            position:relative;
-            z-index:5;
-            border: 2px solid grey;
-        }
-
-        .input{
-            height: 30px;
-            min-width: 50%;
-        }
-
-        #legend{
-            padding:5px;
-            font-weight:bold;
-        }
-
-
-        .btn:hover {
-            background-color: #005fb2;
-            border-color: #005fb2;
-        }
-
-        .btn {
-            margin-top: 15px;
-            display: inline-block;
-            outline: none;
-            cursor: pointer;
-            padding: 0 16px;
-            background-color: #0070d2;
-            border-radius: 0.25rem;
-            border: 1px solid #0070d2;
-            color: #fff;
-            font-size: 13px;
-            line-height: 30px;
-            font-weight: 400;
-            text-align: center;
-        }
-
-
-
-
-
-
-
-
-
-    </style>
 </head>
 <body>
-<header>
-    <h1>Recherche de Vols</h1>
-</header>
 
-<section>
+<header  th:replace="~{fragments/header(title='Nouveau vol')}">
+</header>
     <!-- Contenu de la recherche de vols -->
 
     <!-- Ajoutez ici le formulaire de recherche de vols ou d'autres éléments pertinents -->
-    <div>
-
         <section id="form_flight">
             <form action="#" id="survey-form"  th:action="@{/flight-new}" th:object="${flightNew}" method="post">
                     <fieldset id="fieldset">
                         <legend id="legend"> Ajouter un vol</legend>
                         <div class="row">
+                            <div>
                             <label class="labels" for="departure" id="departure-label"> Départ </label>
-                            <input th:field="*{departure}" class="input" id="departure" name="departure" type="datetime-local" placeholder="Départ" required>
+                            <input th:field="*{departure}" class="input glossy-input" id="departure" name="departure" type="datetime-local" placeholder="Départ" required>
+                        </div>
                         </div>
                         <div class="row">
+                        <div>
                             <label class="labels" for="arrival" id="arrival-label"> Arrivée </label>
-                            <input th:field="*{arrival}" class="input" id="arrival" name="arrival" type="datetime-local" placeholder="Arrivée" required>
+                            <input th:field="*{arrival}" class="input glossy-input" id="arrival" name="arrival" type="datetime-local" placeholder="Arrivée" required>
+                        </div>
                         </div>
                         <div class="row">
+                            <div>
                             <label class="labels" for="price" id="price-label"> Prix  </label>
-                            <input th:field="*{price}" class="input" id="price" min="0"   name="price" type="number" step="0.005" placeholder="Prix">
+                            <input th:field="*{price}" class="input glossy-input" id="price" min="0"   name="price" type="number" step="0.005" placeholder="Prix" required>
+                        </div>
                         </div>
                         <div class="row">
-
+                            <div>
                             <label  class="labels" for="origin"> Origine </label>
-                            <select th:field="*{origin}" class="input" id="origin" name="origin">
+                            <select th:field="*{origin}" class="input glossy-input" id="origin" name="origin" required>
                                 <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
                             </select>
                         </div>
+                        </div>
 
                         <div class="row">
-
+                            <div>
                             <label  class="labels" for="destination"> Destination </label>
-                            <select th:field="*{destination}" class="input" id="destination" name="destination">
+                            <select th:field="*{destination}" class="input glossy-input" id="destination" name="destination" required>
                                 <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name}"></option>
                             </select>
                         </div>
-
-                        <div class="row">
-                            <label class="labels" for="image" id="image-label"> Image  </label>
-                            <input th:field="*{image}" id="image"  class="input"  name="image" type="text" placeholder="URL de l'image">
                         </div>
 
                         <div class="row">
+                            <div>
+                            <label class="labels" for="image" id="image-label"> Image  </label>
+                            <input th:field="*{image}" id="image"  class="input glossy-input"  name="image" type="url" placeholder="URL de l'image" required>
+                        </div>
+                        </div>
+
+                        <div class="row">
+                            <div>
                             <input class="btn" type="submit" value="Enregistrer">
+                        </div>
                         </div>
                     </fieldset>
 
                 </form>
         </section>
-    </div>
-
-</section>
 
 <footer>
     <p>&copy; 2023 Recherche de Vols. Tous droits réservés.</p>

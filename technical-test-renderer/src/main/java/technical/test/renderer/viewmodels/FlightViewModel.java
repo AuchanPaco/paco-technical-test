@@ -3,7 +3,10 @@ package technical.test.renderer.viewmodels;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
+import java.util.Currency;
+import java.util.Locale;
 
 @Data
 @NoArgsConstructor
@@ -31,5 +34,15 @@ public class FlightViewModel {
 
         this.origin = origin;
         this.destination = destination;
+    }
+
+    public String getFormattedPriceInEuros() {
+        Locale euroLocale = new Locale("fr", "FR");
+        Currency euroCurrency = Currency.getInstance(euroLocale);
+
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(euroLocale);
+        currencyFormat.setCurrency(euroCurrency);
+
+        return currencyFormat.format(price);
     }
 }

@@ -38,18 +38,16 @@ public class TechnicalController {
     ) {
         model.addAttribute("flights", this.flightFacade.getFlights(searchViewModel));
         model.addAttribute("search", new SearchViewModel());
-        model.addAttribute("airports", this.flightFacade.getAirports());
         return Mono.just("pages/index");
     }
 
-    @GetMapping("search")
+    @GetMapping("filter")
     public Mono<String> filter(
             final Model model,
            @ModelAttribute(name = "search")  SearchViewModel searchViewModel
     ) {
         model.addAttribute("flights", this.flightFacade.getFlights(searchViewModel));
         model.addAttribute("search", searchViewModel);
-        model.addAttribute("airports", this.flightFacade.getAirports());
         return Mono.just("pages/search");
     }
 
@@ -58,14 +56,12 @@ public class TechnicalController {
     @ExceptionHandler(Exception.class)
     public Mono<String> handleException(Exception e) {
         log.error("An error occurred", e);
-        // Handle the error, possibly return an error page
         return Mono.just("error");
     }
 
 
     @GetMapping("/flight")
     public Mono<String> getCreateFlightForm(final Model model ) {
-        model.addAttribute("airports", this.flightFacade.getAirports());
         model.addAttribute("flightNew", new FlightInput());
         return Mono.just("pages/flight");
     }

@@ -5,7 +5,7 @@
     <title> </title>
 </head>
 <body>
-  <table    th:fragment="flights(noFilter)" th:with="noFlightFound = ${#lists.isEmpty(flights)} , noFilter=${noFilter ?: true}">
+  <table th:fragment="flights(noFilter)" th:with="noFlightFound = ${#lists.isEmpty(flights)} , noFilter=${noFilter ?: true}">
     <tr>
       <th scope="col">Départ de</th>
       <th scope="col">Arrivée à</th>
@@ -19,9 +19,9 @@
     <tr th:unless="${#lists.isEmpty(flights)}" th:each="flight : ${flights}" th:id="${flight.id}" class="flight-row">
       <td th:text="${flight.origin.name}"></td>
       <td th:text="${flight.destination.name}"></td>
-      <td th:text="|${#numbers.formatDecimal(flight.price, 1, 'POINT', 2, 'COMMA')} €|"> </td>
+      <td th:text="${flight.getFormattedPriceInEuros()}"> </td>
       <td> <img loading="lazy" class="image" th:src="${flight.image}" alt="img"/> </td>
-      <td>  <input type="radio" name="favorite" class="favorites-radio-btn" th:value="${flight.id}" onClick="setFavorite(this)"/> </td>
+      <td th:if="${!noFilter}">  <input type="radio" name="favorite" class="favorites-radio-btn" th:value="${flight.id}" onClick="setFavorite(this)"/> </td>
     </tr>
 
   </table>
