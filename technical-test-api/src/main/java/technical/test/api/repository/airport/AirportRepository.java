@@ -1,4 +1,4 @@
-package technical.test.api.repository;
+package technical.test.api.repository.airport;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;

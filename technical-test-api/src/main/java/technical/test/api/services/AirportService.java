@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import technical.test.api.record.AirportRecord;
-import technical.test.api.repository.AirportRepository;
+import technical.test.api.repository.airport.AirportRepository;
 
 @Service
 @RequiredArgsConstructor

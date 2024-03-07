@@ -8,6 +8,7 @@ import technical.test.api.mapper.AirportMapper;
 import technical.test.api.mapper.FlightMapper;
 import technical.test.api.record.AirportRecord;
 import technical.test.api.record.FlightRecord;
+import technical.test.api.representation.FiltersRepresentation;
 import technical.test.api.representation.FlightRepresentation;
 import technical.test.api.services.AirportService;
 import technical.test.api.services.FlightService;
@@ -30,6 +31,11 @@ public class FlightFacade {
     public Mono<FlightRepresentation> createFlight(FlightRepresentation flightRepresentation) {
         final FlightRecord flightRecord = flightMapper.convert(flightRepresentation);
         return flightService.createFlight(flightRecord)
+                .flatMap(this.recordToRepresentation());
+    }
+
+    public Flux<FlightRepresentation> getAllFilteredFlights(FiltersRepresentation filtersRepresentation) {
+        return flightService.getAllFilteredFlights(filtersRepresentation)
                 .flatMap(this.recordToRepresentation());
     }
 

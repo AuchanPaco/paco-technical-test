@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import technical.test.api.facade.FlightFacade;
+import technical.test.api.representation.FiltersRepresentation;
 import technical.test.api.representation.FlightRepresentation;
 
 @RestController
@@ -21,5 +22,10 @@ public class FlightEndpoint {
     @PostMapping
     public Mono<FlightRepresentation> createFlight(@RequestBody FlightRepresentation flightRepresentation) {
         return flightFacade.createFlight(flightRepresentation);
+    }
+
+    @GetMapping("filters")
+    public Flux<FlightRepresentation> getAllFilteredFlights(@ModelAttribute("filtersRepresentation") FiltersRepresentation filtersRepresentation) {
+        return flightFacade.getAllFilteredFlights(filtersRepresentation);
     }
 }
