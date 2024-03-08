@@ -9,8 +9,4 @@ public record FiltersRepresentation(
         Optional<String> priceSort,
         Optional<String> originSort,
         Optional<String> destinationSort
-) {
-
-    public FiltersRepresentation {
-    }
-}
+) {}

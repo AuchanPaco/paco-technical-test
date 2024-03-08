@@ -8,7 +8,7 @@
             </select>
         </div>
         <div class="col form-group">
-            <label for="destination">Aéroport d'arrivé</label>
+            <label for="destination">Aéroport d'arrivée</label>
             <select id="destination" class="form-control" th:field="*{destination}">
                 <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name} + ' - ' + ${airport.country}">
                 </option>
