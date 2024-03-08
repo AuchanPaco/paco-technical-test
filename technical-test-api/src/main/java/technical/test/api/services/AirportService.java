@@ -2,6 +2,7 @@ package technical.test.api.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import technical.test.api.record.AirportRecord;
 import technical.test.api.repository.airport.AirportRepository;
@@ -15,5 +16,9 @@ public class AirportService {
         System.err.println("finding by iata code:"+iataCode);
         return airportRepository.findAirportRecordByIata(iataCode);
 //        return airportRepository.findById(iataCode);
+    }
+
+    public Flux<AirportRecord> getAllAirports() {
+        return airportRepository.findAll();
     }
 }

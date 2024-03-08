@@ -28,4 +28,21 @@ public class TechnicalApiClient {
                 .retrieve()
                 .bodyToFlux(FlightViewModel.class);
     }
+
+    public Mono<FlightViewModel> createdFlight(FlightViewModel flightViewModel) {
+        return webClient
+                .post()
+                .uri(technicalApiProperties.getUrl() + technicalApiProperties.getFlightPath())
+                .body(Mono.just(flightViewModel), FlightViewModel.class)
+                .retrieve()
+                .bodyToMono(FlightViewModel.class);
+    }
+
+    public Flux<AirportViewModel> getAirports() {
+        return webClient
+                .get()
+                .uri(technicalApiProperties.getUrl() + technicalApiProperties.getAirportPath())
+                .retrieve()
+                .bodyToFlux(AirportViewModel.class);
+    }
 }
