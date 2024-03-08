@@ -1,0 +1,27 @@
+<div th:fragment="filters">
+    <form action="#" th:action="@{/filters}" method="get" th:object="${filters}" class="filters-flight-form">
+        <div class="col form-group">
+            <label for="origin">Aéroport de départ</label>
+            <select id="origin" class="form-control" th:field="*{origin}">
+                <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name} + ' - ' + ${airport.country}">
+                </option>
+            </select>
+        </div>
+        <div class="col form-group">
+            <label for="destination">Aéroport d'arrivé</label>
+            <select id="destination" class="form-control" th:field="*{destination}">
+                <option th:each="airport : ${airports}" th:value="${airport.iata}" th:text="${airport.name} + ' - ' + ${airport.country}">
+                </option>
+            </select>
+        </div>
+        <div class="col form-group">
+            <label for="price">Prix</label>
+            <input id="price" class="form-control" type="number" th:field="*{price}" />
+        </div>
+        <div class="col form-group">
+            <button class="btn btn-success" type="submit">Rechercher</button>
+        </div>
+    </form>
+</div>
+
+

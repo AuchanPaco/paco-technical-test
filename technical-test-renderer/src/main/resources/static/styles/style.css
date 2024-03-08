@@ -54,6 +54,7 @@ caption {
 }
 
 table {
+    width: 100% !important;
     border-collapse: collapse;
     border: 2px solid rgb(200, 200, 200);
     letter-spacing: 1px;
@@ -75,6 +76,13 @@ table {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 1rem;
+}
+
+.filters-flight-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     gap: 1rem;
 }
 

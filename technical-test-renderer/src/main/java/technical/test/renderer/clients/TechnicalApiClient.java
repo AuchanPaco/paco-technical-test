@@ -7,6 +7,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import technical.test.renderer.properties.TechnicalApiProperties;
 import technical.test.renderer.viewmodels.AirportViewModel;
+import technical.test.renderer.viewmodels.FiltersViewModel;
 import technical.test.renderer.viewmodels.FlightViewModel;
 
 @Component
@@ -44,5 +45,27 @@ public class TechnicalApiClient {
                 .uri(technicalApiProperties.getUrl() + technicalApiProperties.getAirportPath())
                 .retrieve()
                 .bodyToFlux(AirportViewModel.class);
+    }
+
+    public Flux<FlightViewModel> getAllFilteredFlights(FiltersViewModel filtersViewModel) {
+        StringBuilder params = new StringBuilder("?");
+
+        if (filtersViewModel.getPrice().isPresent()) {
+            params.append("price=").append(filtersViewModel.getPrice().get()).append("&");
+        }
+
+        if (filtersViewModel.getOrigin().isPresent()) {
+            params.append("origin=").append(filtersViewModel.getOrigin().get()).append("&");
+        }
+
+        if (filtersViewModel.getDestination().isPresent()) {
+            params.append("destination=").append(filtersViewModel.getDestination().get()).append("&");
+        }
+
+        return webClient
+                .get()
+                .uri(technicalApiProperties.getUrl() + technicalApiProperties.getFlightPath() + "/filters" + params.toString())
+                .retrieve()
+                .bodyToFlux(FlightViewModel.class);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import technical.test.renderer.services.FlightService;
+import technical.test.renderer.viewmodels.FiltersViewModel;
 import technical.test.renderer.viewmodels.FlightViewModel;
 
 @Component
@@ -21,5 +22,9 @@ public class FlightFacade {
 
     public Mono<FlightViewModel> createFlight(FlightViewModel flightViewModel) {
         return this.flightService.createdFlight(flightViewModel);
+    }
+
+    public Flux<FlightViewModel> getAllFilteredFlights(FiltersViewModel filtersViewModel) {
+        return this.flightService.getAllFilteredFlights(filtersViewModel);
     }
 }
