@@ -56,12 +56,24 @@ public class TechnicalApiClient {
             params.append("price=").append(filtersViewModel.getPrice().get()).append("&");
         }
 
-        if (filtersViewModel.getOrigin().isPresent()) {
+        if (filtersViewModel.getOrigin().isPresent() && !filtersViewModel.getOrigin().get().isBlank()) {
             params.append("origin=").append(filtersViewModel.getOrigin().get()).append("&");
         }
 
-        if (filtersViewModel.getDestination().isPresent()) {
+        if (filtersViewModel.getDestination().isPresent() && !filtersViewModel.getDestination().get().isBlank()) {
             params.append("destination=").append(filtersViewModel.getDestination().get()).append("&");
+        }
+
+        if (filtersViewModel.getPriceSort().isPresent() && !filtersViewModel.getPriceSort().get().isBlank()) {
+            params.append("priceSort=").append(filtersViewModel.getPriceSort().get()).append("&");
+        }
+
+        if (filtersViewModel.getOriginSort().isPresent() && !filtersViewModel.getOriginSort().get().isBlank()) {
+            params.append("originSort=").append(filtersViewModel.getOriginSort().get()).append("&");
+        }
+
+        if (filtersViewModel.getDestinationSort().isPresent() && !filtersViewModel.getDestinationSort().get().isBlank()) {
+            params.append("destinationSort=").append(filtersViewModel.getDestinationSort().get()).append("&");
         }
 
         return webClient

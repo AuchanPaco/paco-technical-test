@@ -81,12 +81,27 @@ table {
 
 .filters-flight-form {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem 0;
 }
 
 .row {
     width: 75%;
 }
 
+.flight-details {
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.flight-info {
+    width: 50%;
+}
+
+.flight-image{
+    width: 50%;
+}
