@@ -6,5 +6,7 @@ import technical.test.api.representation.FiltersRepresentation;
 
 public interface FilteredFlightRepository {
 
+    int PAGE_SIZE = 6;
+
     Flux<FlightRecord> findAllByFilters(FiltersRepresentation filtersRepresentation);
 }

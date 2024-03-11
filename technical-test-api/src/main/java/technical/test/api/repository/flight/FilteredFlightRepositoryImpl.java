@@ -36,6 +36,10 @@ public class FilteredFlightRepositoryImpl implements FilteredFlightRepository {
         filtersRepresentation.destinationSort()
                 .ifPresent(destinationSort -> query.with(Sort.by(Sort.Direction.fromString(destinationSort), "destination")));
 
+        Long page = filtersRepresentation.page();
+        int pageSize = FilteredFlightRepository.PAGE_SIZE;
+        query.skip((page - 1L) * pageSize).limit(pageSize);
+
         return this.mongoTemplate.find(query, FlightRecord.class);
     }
 }
