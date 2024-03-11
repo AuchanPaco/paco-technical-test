@@ -7,6 +7,8 @@ import technical.test.renderer.services.FlightService;
 import technical.test.renderer.viewmodels.FiltersViewModel;
 import technical.test.renderer.viewmodels.FlightViewModel;
 
+import java.util.UUID;
+
 @Component
 public class FlightFacade {
 
@@ -26,5 +28,9 @@ public class FlightFacade {
 
     public Flux<FlightViewModel> getAllFilteredFlights(FiltersViewModel filtersViewModel) {
         return this.flightService.getAllFilteredFlights(filtersViewModel);
+    }
+
+    public Mono<FlightViewModel> getFlightById(UUID id) {
+        return this.flightService.getFlightById(id);
     }
 }

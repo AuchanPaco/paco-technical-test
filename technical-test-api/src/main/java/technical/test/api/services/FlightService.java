@@ -27,4 +27,8 @@ public class FlightService {
     public Flux<FlightRecord> getAllFilteredFlights(FiltersRepresentation filtersRepresentation) {
         return flightRepository.findAllByFilters(filtersRepresentation);
     }
+
+    public Mono<FlightRecord> getFlightById(UUID id) {
+        return this.flightRepository.findById(id);
+    }
 }

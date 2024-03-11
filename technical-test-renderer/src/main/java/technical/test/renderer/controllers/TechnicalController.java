@@ -4,16 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import technical.test.renderer.facades.AirportFacade;
 import technical.test.renderer.facades.FlightFacade;
 import technical.test.renderer.viewmodels.FiltersViewModel;
 import technical.test.renderer.viewmodels.FlightViewModel;
+
+import java.util.UUID;
 
 @Controller
 @RequestMapping
@@ -36,7 +35,7 @@ public class TechnicalController {
         return Mono.just("pages/addFlight");
     }
 
-    @PostMapping("/add-flight")
+    @PostMapping
     public Mono<String> createFlight(final Model model, @ModelAttribute("flightViewModel") FlightViewModel flightViewModel) {
         Mono<FlightViewModel> createdFlight = this.flightFacade.createFlight(flightViewModel);
         model.addAttribute("createdFlight", createdFlight);
@@ -45,13 +44,23 @@ public class TechnicalController {
 
     @GetMapping("/filters")
     public Mono<String> getAllFilteredFlights(final Model model, @ModelAttribute("filtersViewModel") FiltersViewModel filtersViewModel) {
-        return getMarketPlaceWithFlights(model, this.flightFacade.getAllFilteredFlights(filtersViewModel));
+        return getMarketPlaceWithFlights(model, this.flightFacade.getAllFilteredFlights(filtersViewModel), filtersViewModel);
+    }
+
+    @GetMapping("/{id}")
+    public Mono<String> getFlightById(final Model model, @PathVariable("id") UUID id) {
+        model.addAttribute("flight", this.flightFacade.getFlightById(id));
+        return Mono.just("pages/flight");
+    }
+
+    private Mono<String> getMarketPlaceWithFlights(final Model model, final Flux<FlightViewModel> flights, final FiltersViewModel filtersViewModel) {
+        model.addAttribute("flights", flights);
+        model.addAttribute("airports", this.airportFacade.getAirports());
+        model.addAttribute("filters", filtersViewModel);
+        return Mono.just("pages/index");
     }
 
     private Mono<String> getMarketPlaceWithFlights(final Model model, final Flux<FlightViewModel> flights) {
-        model.addAttribute("flights", flights);
-        model.addAttribute("airports", this.airportFacade.getAirports());
-        model.addAttribute("filters", new FiltersViewModel());
-        return Mono.just("pages/index");
+        return this.getMarketPlaceWithFlights(model, flights, new FiltersViewModel());
     }
 }

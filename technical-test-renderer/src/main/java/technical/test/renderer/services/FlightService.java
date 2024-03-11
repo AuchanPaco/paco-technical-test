@@ -7,6 +7,8 @@ import technical.test.renderer.clients.TechnicalApiClient;
 import technical.test.renderer.viewmodels.FiltersViewModel;
 import technical.test.renderer.viewmodels.FlightViewModel;
 
+import java.util.UUID;
+
 @Service
 public class FlightService {
     private final TechnicalApiClient technicalApiClient;
@@ -25,5 +27,9 @@ public class FlightService {
 
     public Flux<FlightViewModel> getAllFilteredFlights(FiltersViewModel filtersViewModel) {
         return this.technicalApiClient.getAllFilteredFlights(filtersViewModel);
+    }
+
+    public Mono<FlightViewModel> getFlightById(UUID id) {
+        return this.technicalApiClient.getFlightById(id);
     }
 }

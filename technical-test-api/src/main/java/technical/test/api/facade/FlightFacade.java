@@ -13,6 +13,7 @@ import technical.test.api.representation.FlightRepresentation;
 import technical.test.api.services.AirportService;
 import technical.test.api.services.FlightService;
 
+import java.util.UUID;
 import java.util.function.Function;
 
 @Component
@@ -36,6 +37,11 @@ public class FlightFacade {
 
     public Flux<FlightRepresentation> getAllFilteredFlights(FiltersRepresentation filtersRepresentation) {
         return flightService.getAllFilteredFlights(filtersRepresentation)
+                .flatMap(this.recordToRepresentation());
+    }
+
+    public Mono<FlightRepresentation> getFlightById(UUID id) {
+        return flightService.getFlightById(id)
                 .flatMap(this.recordToRepresentation());
     }
 
