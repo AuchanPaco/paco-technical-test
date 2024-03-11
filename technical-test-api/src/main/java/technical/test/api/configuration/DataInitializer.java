@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import technical.test.api.record.AirportRecord;
 import technical.test.api.record.FlightRecord;
-import technical.test.api.repository.AirportRepository;
-import technical.test.api.repository.FlightRepository;
+import technical.test.api.repository.airport.AirportRepository;
+import technical.test.api.repository.flight.FlightRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

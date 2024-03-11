@@ -1,11 +1,22 @@
 spring:
   application:
     name: technical-test-api
-  main:
-    web-application-type: servlet
+  #  main:
+  #    web-application-type: servlet
   data:
     mongodb:
+      host: localhost
+      port: 27017
       database: auchan-tech-test
 
 server:
   port: 8086
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              ReactiveMongoTemplate: DEBUG
