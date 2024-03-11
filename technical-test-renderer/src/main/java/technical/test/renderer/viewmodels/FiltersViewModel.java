@@ -12,4 +12,5 @@ public class FiltersViewModel {
     private Optional<String> priceSort;
     private Optional<String> originSort;
     private Optional<String> destinationSort;
+    private Long page = 0L;
 }

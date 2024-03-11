@@ -9,5 +9,5 @@ public record FiltersRepresentation(
         Optional<String> priceSort,
         Optional<String> originSort,
         Optional<String> destinationSort,
-        Long page
+        Optional<Long> page
 ) {}

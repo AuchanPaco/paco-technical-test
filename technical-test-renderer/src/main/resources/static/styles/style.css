@@ -26,7 +26,8 @@ footer {
     width: 100%;
     text-align: center;
     color: #fff;
-    height: 10vh;
+    height: 5vh;
+    margin-top: 5vh;
 }
 
 td,

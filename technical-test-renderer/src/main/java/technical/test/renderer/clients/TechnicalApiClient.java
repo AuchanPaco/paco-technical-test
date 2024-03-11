@@ -76,6 +76,8 @@ public class TechnicalApiClient {
             params.append("destinationSort=").append(filtersViewModel.getDestinationSort().get()).append("&");
         }
 
+        params.append("page=").append(filtersViewModel.getPage()).append("&");
+
         return webClient
                 .get()
                 .uri(technicalApiProperties.getUrl() + technicalApiProperties.getFlightPath() + "/filters" + params)

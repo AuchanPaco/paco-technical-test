@@ -19,13 +19,13 @@
             </div>
             <div class="col form-group">
                 <label for="price">Prix</label>
-                <input id="price" class="form-control" type="number" th:field="*{price}" />
+                <input id="price" class="form-control" type="number" min="0" step="any" th:field="*{price}" />
             </div>
         </div>
         <div class="row w-100">
             <div class="col form-group">
                 <label for="originSort">Tri par aéroport de départ</label>
-                <select id="originSort" class="form-control" type="number" th:field="*{originSort}" >
+                <select id="originSort" class="form-control" th:field="*{originSort}" >
                     <option th:value="null">-- Sélectionnez le tri de l'aéroport de départ --</option>
                     <option value="ASC">Croissant</option>
                     <option value="DESC">Décroissant</option>
@@ -49,11 +49,14 @@
             </div>
         </div>
         <div class="row w-100">
-            <div class="col form-group">
+            <div class="col form-group d-flex justify-content-between">
                 <button class="btn btn-success" type="submit">Rechercher</button>
+                <div class="pagination-control">
+                    <button class="btn btn-outline-secondary" type="submit" onclick="handleChangePage(-1)" th:disabled="${filters.getPage() <= 0}"><</button>
+                    <button class="btn btn-outline-secondary" type="submit" onclick="handleChangePage(1)" th:disabled="${flights.size() < 6}">></button>
+                </div>
             </div>
         </div>
+        <input type="hidden" id="filters.page" th:field="*{page}" value="0" />
     </form>
 </div>
-
-
